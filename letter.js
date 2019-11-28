@@ -1,14 +1,14 @@
 function Letter(letter, guessed) {
     this.letter = letter,
     this.guessed = guessed,
-    this.outcome = function() {
+    this.display = function() {
         if (this.guessed) {
             return this.letter;
         } else {
             return " _ ";
         }
     }
-    this.updateBoolean = function(input) {
+    this.guess = function(input) {
         if (input == this.letter) {
             this.guessed = true; 
         } else {
@@ -17,9 +17,11 @@ function Letter(letter, guessed) {
     }
 }
 
-var cee = new Letter("c", false)
+// var cee = new Letter("c", false)
 // console.log(cee);
 
-cee.updateBoolean("c");
+// cee.updateBoolean("c");
 
-console.log(cee.outcome())
+// console.log(cee.outcome())
+
+module.exports = Letter; 
