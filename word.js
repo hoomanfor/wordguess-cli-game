@@ -1,7 +1,7 @@
 var Letter = require('./letter.js');
 
 function Word() {
-    this.letters = [new Letter("c", false), new Letter("a", false), new Letter("t", false)];
+    this.letters = [];
     this.stringWord = function() {
         var string = "";
         this.letters.forEach(function(element) {
@@ -12,7 +12,7 @@ function Word() {
     }
     this.takesCharacter = function(input) {
         this.letters.forEach(function(element) {
-            element.guess(element.letter);
+            element.guess(input);
         })
     }
 }
@@ -25,4 +25,7 @@ function Word() {
 // cat.takesCharacter()
 // cat.stringWord()
 
-module.exports = Word; 
+// new Letter("c", false), new Letter("a", false), new Letter("t", false)
+
+module.exports = Word;
+// module.exports = Letter; 
