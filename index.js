@@ -5,15 +5,23 @@ var inquirer = require('inquirer')
 var vocabulary = ["warm", "grateful", "kindness", "plain", "sophisticated"]
 var index = Math.floor(Math.random() * vocabulary.length);
 var selection = vocabulary[index];
-console.log(selection);
 var selectionArr = selection.split('');
 var mysteryWord = new Word();
 var guessesRemain = 9;  
-var win = false
+var win = false;
 
-for (var i = 0; i < selectionArr.length; i++) {
-    var character = new Letter(selectionArr[i], false);
-    mysteryWord.letters.push(character);
+function newWord() {
+    index = Math.floor(Math.random() * vocabulary.length);
+    selection = vocabulary[index];
+    // console.log(selection);
+    selectionArr = selection.split('');
+    mysteryWord = new Word();
+    guessesRemain = 9;  
+    win = false
+    for (var i = 0; i < selectionArr.length; i++) {
+        var character = new Letter(selectionArr[i], false);
+        mysteryWord.letters.push(character);
+    }
 }
 
 function play() {
@@ -27,35 +35,53 @@ function play() {
                 name: "guess"
             }
         ]).then(function(response) {
+            if (response.guess == "exit") {
+                process.exit(); 
+            }
             mysteryWord.checkCharacter(response.guess);
-            console.log(mysteryWord.stringWord());
-            // console.log(mysteryWord.stringWord().split(' _ ').length); 
-            // console.log(mysteryWord.stringWord().split(''));
-
-
             if (mysteryWord.stringWord().indexOf(response.guess) == -1) {
                 guessesRemain--;
-                console.log("guessesRemain", guessesRemain);
+                if (guessesRemain > -1) {
+                    console.log("");
+                    console.log("You've made an Incorrect Guess!\n" + 
+                    "You have " + guessesRemain + " guesses left.");
+                    console.log("");
+                } else {
+                    console.log("");
+                    console.log("You've made an Incorrect Guess!\n" + 
+                    "You are out of guesses.");
+                    win = true;
+                    newWord(); 
+                    play(); 
+                }
+            } else {
+                console.log("");
+                console.log("Good Job!")
+                console.log("'" + response.guess + "'" + " is a correct letter.")
+                console.log("");
+                console.log(mysteryWord.stringWord());
+                console.log("");
             }
-
             mysteryWord.letters.forEach(function(element) {
                 if (element.guessed == true) {
                     correctCount++;
                 }
             })
-
             if (correctCount == mysteryWord.letters.length) {
                 win = true;
-                console.log("You Won!")
+                console.log("You Won!");
+                console.log("");
+                newWord();
+                play(); 
             } else {
                 win = false; 
                 play(); 
             }
-
         })
     }
 }
 
+newWord(); 
 play(); 
 
 

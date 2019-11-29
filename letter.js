@@ -3,7 +3,7 @@ function Letter(letter, guessed) {
     this.guessed = guessed,
     this.display = function() {
         if (this.guessed) {
-            return this.letter;
+            return " " + this.letter + " ";
         } else {
             return " _ ";
         }
