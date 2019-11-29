@@ -32,14 +32,22 @@ function play() {
             {
                 type: "input",
                 message: "To play, guess a letter!",
-                name: "guess"
+                name: "guess",
+                validate: function(input) {
+                    if (input != input.match(/^[A-Za-z]+$/) || input.length > 1) {
+                        return "Enter ONE letter, between A and Z."
+                    } else {
+                        return true; 
+                    }
+                }
             }
         ]).then(function(response) {
-            if (response.guess == "exit") {
+            var input = response.guess.toLowerCase(); 
+            if (input == "exit") {
                 process.exit(); 
             }
-            mysteryWord.checkCharacter(response.guess);
-            if (mysteryWord.stringWord().indexOf(response.guess) == -1) {
+            mysteryWord.checkCharacter(input);
+            if (mysteryWord.stringWord().indexOf(input) == -1) {
                 guessesRemain--;
                 if (guessesRemain > -1) {
                     console.log("");
@@ -57,7 +65,7 @@ function play() {
             } else {
                 console.log("");
                 console.log("Good Job!")
-                console.log("'" + response.guess + "'" + " is a correct letter.")
+                console.log("'" + input + "'" + " is a correct letter.")
                 console.log("");
                 console.log(mysteryWord.stringWord());
                 console.log("");
