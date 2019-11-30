@@ -34,6 +34,9 @@ function play() {
                 message: "To play, guess a letter!",
                 name: "guess",
                 validate: function(input) {
+                    if (input == "exit") {
+                        return true; 
+                    }
                     if (input != input.match(/^[A-Za-z]+$/) || input.length > 1) {
                         return "Enter ONE letter, between A and Z."
                     } else {
